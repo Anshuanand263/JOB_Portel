@@ -60,13 +60,6 @@
                                             <li><a href="{{url_for('home')}}">Home</a></li>
                                             <li><a href="{{ url_for('job_listing') }}">Find a Jobs </a></li>
                                             <li><a href="{{url_for('about')}}">About</a></li>
-                                            <li><a href="#">Page</a>
-                                                <ul class="submenu">
-                                                    <li><a href="{{ url_for('blog') }}">Blog</a></li>
-                                                    <li><a href="{{ url_for('elements') }}">Elements</a></li>
-
-                                                </ul>
-                                            </li>
                                             <li><a href="{{url_for('contact')}}">Contact</a></li>
                                         </ul>
                                     </nav>
@@ -79,9 +72,6 @@
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                                             {{ session.get("user") }}
-                                            <small class="d-block text-light">
-                                                {{ session.get("role") }}
-                                            </small>
                                         </button>
 
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">

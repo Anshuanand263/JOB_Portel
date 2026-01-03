@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Applications{% endblock %}
+
+{% block content %}
+<main class="container mt-5">
+
+    <h3 class="mb-4">Applications for {{ job.title }}</h3>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Candidate Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in applications %}
+            <tr>
+                <td>{{ app.user_name }}</td>
+                <td>{{ app.user_email }}</td>
+                <td>{{ app.status }}</td>
+                <td>
+                    <a href="/provider/application/{{ app._id }}" class="btn btn-sm btn-primary">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</main>
+{% endblock %}

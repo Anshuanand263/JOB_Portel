@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 client = MongoClient("mongodb://localhost:27017/")
 db = client["job_portal"]
 users_col = db["users"]
+providers_col = db["providers"]
 
 app = Flask(__name__)
 app.secret_key="oisjffkgdofg"
@@ -33,14 +34,21 @@ def register():
 
         # hash password
         hashed_password = generate_password_hash(password)
-
-        # insert user
-        users_col.insert_one({
+        if role=="users":
+              users_col.insert_one({
             "fullname": fullname,
             "email": email,
             "password": hashed_password,
             "role": role
         })
+        else:
+              providers_col.insert_one({
+            "fullname": fullname,
+            "email": email,
+            "password": hashed_password,
+            "role": role
+        })
+      
 
         return redirect(url_for("login"))
 
@@ -50,20 +58,41 @@ def login():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
-
-        user = users_col.find_one({"email": email})
-
-        if user and check_password_hash(user["password"], password):
-            session["user"] = user["email"]
-            session["role"] = user["role"]
-            session["name"] = user["fullname"]
-            return redirect(url_for("home"))
+        role = request.form.get("role")
+        
+        if role=="users":
+            user = users_col.find_one({"email": email})
+            if user and check_password_hash(user["password"], password):
+                
+                session["user"] = user["email"]
+                session["role"] = user["role"]
+                session["name"] = user["fullname"]
+                return redirect(url_for("home"))
+            else:
+                return "Invalid email or password"          
         else:
-            return "Invalid email or password"
+            puser = providers_col.find_one({"email": email})
+            if puser and check_password_hash(puser["password"], password):
+                
+                session["user"] = puser["email"]
+                session["role"] = puser["role"]
+                session["name"] = puser["fullname"]
+                return redirect(url_for("p_home"))
+            else:
+                return "Invalid email or password"          
 
     return render_template("login.html")
-
-
+#provider backend
+@app.route("/provider/home")
+def p_home():
+    return render_template("providers/provider_home.html")
+@app.route("/provider/addjob")
+def addjob():
+    return render_template("providers/addjob.html")
+@app.route("/provider/check_application")
+def check_application():
+    return render_template("providers/check_applicatio.html")
+#user backend
 @app.route("/profile")
 def profile():
     if "user" not in session:
@@ -92,17 +121,10 @@ def job_details(id):
 @app.route('/about')
 def about():
     return render_template('about.html')
-@app.route('/blog')
-def blog():
-    return render_template('blog.html')
 
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
-
-@app.route('/elements')
-def elements():
-    return render_template('elements.html')
 
 
 if __name__=="__main__":

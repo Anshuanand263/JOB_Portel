@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Provider Dashboard{% endblock %}
+
+{% block content %}
+<main class="container mt-5">
+
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Provider Dashboard</h2>
+            <p class="text-muted">Manage your jobs and applications</p>
+        </div>
+        <div class="col text-end">
+            <a href="{{url_for('addjob')}}" class="btn btn-success">
+                + Post New Job
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5>Total Jobs</h5>
+                    <h3>{{ total_jobs }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5>Total Applications</h5>
+                    <h3>{{ total_applications }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5>Active Jobs</h5>
+                    <h3>{{ active_jobs }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Table -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Your Posted Jobs</h5>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Applications</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                    <tr>
+                        <td>{{ job.title }}</td>
+                        <td>{{ job.location }}</td>
+                        <td>{{ job.job_type }}</td>
+                        <td>{{ job.application_count }}</td>
+                        <td>
+                            <a href="/provider/job/{{ job._id }}" class="btn btn-sm btn-primary">View</a>
+                            <a href="/provider/job/edit/{{ job._id }}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="/provider/job/delete/{{ job._id }}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
