@@ -13,7 +13,7 @@ app.secret_key="oisjffkgdofg"
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template('users/index.html')
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -112,12 +112,12 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/job_listing")
+@app.route("/users/job_listing")
 def job_listing():
-    return render_template('job_listing.html')
-@app.route('/job/<id>')
+    return render_template('users/job_listing.html')
+@app.route('/users/job/<id>')
 def job_details(id):
-    return render_template('job_details.html')
+    return render_template('users/job_details.html')
 @app.route('/about')
 def about():
     return render_template('about.html')
