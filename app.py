@@ -11,9 +11,7 @@ providers_col = db["providers"]
 app = Flask(__name__)
 app.secret_key="oisjffkgdofg"
 
-@app.route("/")
-def home():
-    return render_template('users/index.html')
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -53,7 +51,7 @@ def register():
         return redirect(url_for("login"))
 
     return render_template("register.html")
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email = request.form.get("email")
@@ -83,41 +81,38 @@ def login():
 
     return render_template("login.html")
 #provider backend
-@app.route("/provider/home")
+@app.route("/providers/home")
 def p_home():
-    return render_template("providers/provider_home.html")
-@app.route("/provider/addjob")
+    return render_template("providers/home.html")
+@app.route("/providers/addjob")
 def addjob():
     return render_template("providers/addjob.html")
+
 @app.route("/provider/check_application")
 def check_application():
     return render_template("providers/check_applicatio.html")
 #user backend
-@app.route("/profile")
-def profile():
-    if "user" not in session:
-        return redirect(url_for("login"))
-    return f"Profile Page for {session['user']} ({session['role']})"
-
-
-@app.route("/dashboard")
-def dashboard():
-    if "user" not in session:
-        return redirect(url_for("login"))
-    return f"{session['role']} Dashboard"
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect(url_for("login"))
-
-
+@app.route("/home")
+def home():
+    return render_template('users/index.html')
 @app.route("/users/job_listing")
 def job_listing():
     return render_template('users/job_listing.html')
 @app.route('/users/job/<id>')
 def job_details(id):
     return render_template('users/job_details.html')
+# common backend
+@app.route("/profile")
+def profile():
+    if "user" not in session:
+        return redirect(url_for("login"))
+    return f"Profile Page for {session['user']} ({session['role']})"
+
+@app.route("/dashboard")
+def dashboard():
+    if "user" not in session:
+        return redirect(url_for("login"))
+    return f"{session['role']} Dashboard"
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -125,7 +120,10 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
-
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 
 if __name__=="__main__":
     app.run(debug=True)
