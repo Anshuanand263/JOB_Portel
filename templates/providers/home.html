@@ -59,7 +59,7 @@
                         <th>Title</th>
                         <th>Location</th>
                         <th>Type</th>
-                        <th>Applications</th>
+                        <th>Salary</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -69,11 +69,11 @@
                         <td>{{ job.title }}</td>
                         <td>{{ job.location }}</td>
                         <td>{{ job.job_type }}</td>
-                        <td>{{ job.application_count }}</td>
+                        <td>{{ job.salary }}</td>
                         <td>
-                            <a href="/provider/job/{{ job._id }}" class="btn btn-sm btn-primary">View</a>
-                            <a href="/provider/job/edit/{{ job._id }}" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="/provider/job/delete/{{ job._id }}" class="btn btn-sm btn-danger">Delete</a>
+                            <a href="{{url_for('job_details', id=job._id)}}" class="btn btn-sm btn-primary">View</a>
+                            <!-- <a href="/provider/job/edit/{{ job._id }}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="/provider/job/delete/{{ job._id }}" class="btn btn-sm btn-danger">Delete</a> -->
                         </td>
                     </tr>
                     {% endfor %}

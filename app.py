@@ -1,12 +1,13 @@
 from flask import Flask,render_template,request,session,redirect,url_for,Response
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from bson import ObjectId
 # MongoDB connection
 client = MongoClient("mongodb://localhost:27017/")
 db = client["job_portal"]
 users_col = db["users"]
 providers_col = db["providers"]
+job_collections = db["job_collections"]
 
 app = Flask(__name__)
 app.secret_key="oisjffkgdofg"
@@ -83,9 +84,43 @@ def login():
 #provider backend
 @app.route("/providers/home")
 def p_home():
-    return render_template("providers/home.html")
-@app.route("/providers/addjob")
+    
+
+    jobs = list(db.job_collections.find({"company": session["name"]}))
+
+    total_jobs = len(jobs)
+    # total_applications = sum(job.get("application_count", 0) for job in jobs)
+    # active_jobs = sum(1 for job in jobs if job.get("status") == "active")
+
+    return render_template(
+        "providers/home.html",
+        jobs=jobs,
+        total_jobs=total_jobs,
+        total_applications=20,
+        active_jobs=67
+    )
+
+@app.route("/providers/addjob",methods=["GET", "POST"])
 def addjob():
+    if request.method=="POST":
+        title=request.form.get("title")
+        location=request.form.get("location")
+        job_type=request.form.get("job_type")
+        salary=request.form.get("salary")
+        description=request.form.get("description")
+
+        job_collections.insert_one({
+            "company":session["name"],
+            "title":title,
+        "location":location,
+        "job_type":job_type,
+        "salary":salary,
+        "description":description
+
+        })
+
+        
+
     return render_template("providers/addjob.html")
 
 @app.route("/provider/check_application")
@@ -100,7 +135,10 @@ def job_listing():
     return render_template('users/job_listing.html')
 @app.route('/users/job/<id>')
 def job_details(id):
-    return render_template('users/job_details.html')
+    job = db.job_collections.find_one({"_id": ObjectId(id)})
+    return render_template('users/job_details.html',
+                           job=job
+                           )
 # common backend
 @app.route("/profile")
 def profile():
