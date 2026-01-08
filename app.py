@@ -8,6 +8,7 @@ db = client["job_portal"]
 users_col = db["users"]
 providers_col = db["providers"]
 job_collections = db["job_collections"]
+applicants_col = db["applicants_col"]
 
 app = Flask(__name__)
 app.secret_key="oisjffkgdofg"
@@ -79,12 +80,18 @@ def login():
                 return redirect(url_for("p_home"))
             else:
                 return "Invalid email or password"          
-
+    if "user" in session:
+        role = session["role"]
+        if role=="users":
+            return redirect(url_for('home'))
+        else:
+            return redirect(url_for('p_home'))        
     return render_template("login.html")
 #provider backend
 @app.route("/providers/home")
 def p_home():
-    
+    if "user" not in session:
+        return redirect(url_for("login"))
 
     jobs = list(db.job_collections.find({"company": session["name"]}))
 
@@ -102,40 +109,63 @@ def p_home():
 
 @app.route("/providers/addjob",methods=["GET", "POST"])
 def addjob():
+    if "user" not in session:
+        return redirect(url_for("login"))
+    
     if request.method=="POST":
-        title=request.form.get("title")
-        location=request.form.get("location")
-        job_type=request.form.get("job_type")
-        salary=request.form.get("salary")
-        description=request.form.get("description")
+            
+            title=request.form.get("title")
+            location=request.form.get("location")
+            job_type=request.form.get("job_type")
+            salary=request.form.get("salary")
+            description=request.form.get("description")
 
-        job_collections.insert_one({
+            job_collections.insert_one({
             "company":session["name"],
             "title":title,
-        "location":location,
-        "job_type":job_type,
-        "salary":salary,
-        "description":description
+             "location":location,
+            "job_type":job_type,
+              "salary":salary,
+             "description":description
 
-        })
-
+             }) 
+            return redirect(url_for('p_home'))
         
-
     return render_template("providers/addjob.html")
+    
 
-@app.route("/provider/check_application")
+@app.route("/providers/check_application")
 def check_application():
-    return render_template("providers/check_applicatio.html")
+    if "user" not in session:
+        return redirect(url_for("login"))
+    job = db.job_collections.find_one({"company":session["name"]})
+    return render_template("providers/check_applicatio.html",job=job)
 #user backend
 @app.route("/home")
 def home():
+    if "user" not in session:
+        return redirect(url_for("login"))
     return render_template('users/index.html')
 @app.route("/users/job_listing")
 def job_listing():
-    return render_template('users/job_listing.html')
-@app.route('/users/job/<id>')
+    if "user" not in session:
+        return redirect(url_for("login"))
+    jobs = db.job_collections.find({})
+    count = db.job_collections.count_documents({})
+    return render_template('users/job_listing.html',jobs=jobs,counts=count)
+@app.route('/users/job/<id>',methods=["GET","POST"])
 def job_details(id):
     job = db.job_collections.find_one({"_id": ObjectId(id)})
+    if request.method=="POST":
+        if "user" in session:            
+            applicants_col.insert_one({
+                 "user_name":session["name"],
+                 " user_email":session["user"],
+                 "status":"Applied"
+            })
+        return redirect(url_for('login')) 
+    return redirect(url_for('job_listing'))
+
     return render_template('users/job_details.html',
                            job=job
                            )

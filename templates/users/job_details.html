@@ -93,14 +93,14 @@
                         </div>
                         <ul>
                             <li>Posted date : <span>12 Aug 2019</span></li>
-                            <li>Location : <span>New York</span></li>
+                            <li>Location : <span>{{job.location}}</span></li>
                             <li>Vacancy : <span>02</span></li>
-                            <li>Job nature : <span>Full time</span></li>
-                            <li>Salary : <span>$7,800 yearly</span></li>
+                            <li>Job nature : <span>{{job.job_type}}</span></li>
+                            <li>Salary : <span>{{job.salary}} yearly</span></li>
                             <li>Application date : <span>12 Sep 2020</span></li>
                         </ul>
                         <div class="apply-btn2">
-                            <a href="#" class="btn">Apply Now</a>
+                            <a href="{{url_for('job_details',id=job._id)}}" class="btn">Apply Now</a>
                         </div>
                     </div>
                     <div class="post-details4  mb-50">
