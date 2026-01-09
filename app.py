@@ -145,7 +145,9 @@ def check_application():
 def home():
     if "user" not in session:
         return redirect(url_for("login"))
-    return render_template('users/index.html')
+    titles=db.job_collections.distinct("title")
+    locations = db.job_collections.distinct("location")
+    return render_template('users/index.html',titles=titles,locations=locations)
 @app.route("/users/job_listing")
 def job_listing():
     if "user" not in session:

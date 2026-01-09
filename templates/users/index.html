@@ -23,22 +23,37 @@
                     <div class="row">
                         <div class="col-xl-8">
                             <!-- form -->
-                            <form action="#" class="search-box">
-                                <div class="input-form">
+                            <form method="POST" action="{{url_for('home')}}" class="search-box">
+                                <!-- <div class="input-form">
                                     <input type="text" placeholder="Job Tittle or keyword">
+                                </div>  this need semantic search means vector concept -->
+
+                                <div class="select-form">
+                                    <div class="select-itms">
+                                        <select name="title" id="select1">
+                                            <option value="" selected>Role</option>
+                                            {% for title in titles %}
+                                            <option value="{{ title }}">{{ title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="select-form">
                                     <div class="select-itms">
-                                        <select name="select" id="select1">
-                                            <option value="">Location BD</option>
-                                            <option value="">Location PK</option>
-                                            <option value="">Location US</option>
-                                            <option value="">Location UK</option>
+                                        <select name="location" id="select1">
+                                            <option value="" selected>Location</option>
+                                            {% for loc in locations %}
+                                            <option value="{{ loc }}">{{ loc }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="search-form">
-                                    <a href="#">Find job</a>
+
+                                    <button type="submit" class="button button-contactForm boxed-btn w-100">
+                                        Find Job
+                                    </button>
+
                                 </div>
                             </form>
                         </div>
