@@ -23,16 +23,13 @@ def register():
         confirm_password = request.form.get("confirm_password")
         role = request.form.get("role")
 
-        # basic validation
         if password != confirm_password:
             return "Passwords do not match"
 
-        # check if user already exists
         existing_user = users_col.find_one({"email": email})
         if existing_user:
             return "Email already registered"
 
-        # hash password
         hashed_password = generate_password_hash(password)
         if role=="users":
               users_col.insert_one({
@@ -138,13 +135,32 @@ def addjob():
 def check_application():
     if "user" not in session:
         return redirect(url_for("login"))
-    job = db.job_collections.find_one({"company":session["name"]})
-    return render_template("providers/check_applicatio.html",job=job)
+    jobs = db.applicants_col.find({"company":session["name"]})
+    return render_template("providers/check_applicatio.html",jobs=jobs)
 #user backend
-@app.route("/home")
+@app.route("/home", methods=["GET","POST"])
 def home():
     if "user" not in session:
         return redirect(url_for("login"))
+    if request.method=="POST":
+        title=request.form.get("title")        
+        location=request.form.get("location")
+        query = {"$or": []}
+
+        if title:
+           query["$or"].append({"title": title})
+
+        if location:
+           query["$or"].append({"location": location})
+
+        if not query["$or"]:
+           query = {}
+
+        jobs = db.job_collections.find(query)
+        count = db.job_collections.count_documents(query)    
+
+        return render_template('users/job_listing.html',jobs=jobs,counts=count)        
+    
     titles=db.job_collections.distinct("title")
     locations = db.job_collections.distinct("location")
     return render_template('users/index.html',titles=titles,locations=locations)
@@ -157,17 +173,17 @@ def job_listing():
     return render_template('users/job_listing.html',jobs=jobs,counts=count)
 @app.route('/users/job/<id>',methods=["GET","POST"])
 def job_details(id):
+    if "user" not in session:
+        return redirect(url_for("login"))
     job = db.job_collections.find_one({"_id": ObjectId(id)})
-    if request.method=="POST":
-        if "user" in session:            
-            applicants_col.insert_one({
+    if request.method=="POST":           
+        applicants_col.insert_one({
+                 "company":job["company"],
                  "user_name":session["name"],
-                 " user_email":session["user"],
+                 "user_email":session["user"],
                  "status":"Applied"
             })
-        return redirect(url_for('login')) 
-    return redirect(url_for('job_listing'))
-
+        return redirect(url_for('job_listing'))
     return render_template('users/job_details.html',
                            job=job
                            )

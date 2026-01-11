@@ -96,12 +96,13 @@
                             <li>Location : <span>{{job.location}}</span></li>
                             <li>Vacancy : <span>02</span></li>
                             <li>Job nature : <span>{{job.job_type}}</span></li>
-                            <li>Salary : <span>{{job.salary}} yearly</span></li>
+                            <li>Salary : <span>{{job.salary}} Monthly</span></li>
                             <li>Application date : <span>12 Sep 2020</span></li>
                         </ul>
-                        <div class="apply-btn2">
-                            <a href="{{url_for('job_details',id=job._id)}}" class="btn">Apply Now</a>
-                        </div>
+                        <form method="POST" action="{{ url_for('job_details', id=job._id) }}">
+                            <button type="submit" class="btn">Apply Now</button>
+                        </form>
+
                     </div>
                     <div class="post-details4  mb-50">
                         <!-- Small Section Tittle -->
