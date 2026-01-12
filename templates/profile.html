@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+{% block extra_css %}
+<style>
+    .profile-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .profile-card {
+        width: 100%;
+        max-width: 480px;
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .profile-avatar {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 12px;
+    }
+
+    .profile-name {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    .profile-username {
+        color: #666;
+        margin: 4px 0 0;
+    }
+
+    .profile-details {
+        margin-top: 16px;
+    }
+
+    .profile-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+
+    .profile-bio {
+        flex-direction: column;
+    }
+
+    .label {
+        font-weight: 600;
+        color: #444;
+    }
+
+    .value {
+        color: #333;
+    }
+
+    .profile-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 24px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background: #007bff;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: #fff;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <img src="{{url_for('static',filename='img/comment/comment_1.png') }}" alt="Profile Picture"
+                class="profile-avatar" />
+            <h2 class="profile-name">
+                {{ session["name"] }}
+            </h2>
+
+        </div>
+
+        <div class="profile-details">
+            <div class="profile-row">
+                <span class="label">Email</span>
+                <span class="value">{{ session["user"]}}</span>
+            </div>
+
+
+            <div class="profile-row profile-bio">
+                <span class="label">Bio</span>
+                <span class="value"></span>
+            </div>
+
+        </div>
+
+        <div class="profile-actions">
+            <a href="#" class="btn btn-primary">
+                Edit Profile
+            </a>
+            <a href="#" class="btn btn-secondary">
+                Change Password
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

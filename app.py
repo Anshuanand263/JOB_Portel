@@ -192,7 +192,8 @@ def job_details(id):
 def profile():
     if "user" not in session:
         return redirect(url_for("login"))
-    return f"Profile Page for {session['user']} ({session['role']})"
+    
+    return render_template("profile.html")
 
 @app.route("/dashboard")
 def dashboard():
