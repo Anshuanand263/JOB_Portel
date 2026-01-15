@@ -5,7 +5,7 @@
 {% block content %}
 <main class="container mt-5">
 
-    <h3 class="mb-4">Applications for {{ jobs[0]["company"] }}</h3>
+    <h3 class="mb-4">Applications for {{ session[""] }}</h3>
 
     <table class="table table-bordered">
         <thead class="table-dark">
@@ -23,7 +23,13 @@
                 <td>{{ job["user_email"] }}</td>
                 <td>{{ job["status"] }}</td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-primary">View</a>
+                    <form method="POST" action="{{ url_for('profile') }}">
+
+                        <button type="submit" name="email" class="btn btn-sm btn-primary">
+                            View
+                        </button>
+
+                    </form>
                 </td>
             </tr>
             {% endfor %}

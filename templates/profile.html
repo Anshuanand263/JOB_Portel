@@ -91,6 +91,36 @@
 {% endblock %}
 
 {% block content %}
+{% if user_data %}
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <img src="{{url_for('static',filename='img/comment/comment_1.png') }}" alt="Profile Picture"
+                class="profile-avatar" />
+            <h2 class="profile-name">
+                {{ user_data["fullname"] }}
+            </h2>
+
+        </div>
+
+        <div class="profile-details">
+            <div class="profile-row">
+                <span class="label">Email</span>
+                <span class="value">{{ user_data["email"]}}</span>
+            </div>
+
+
+            <div class="profile-row profile-bio">
+                <span class="label">Skill</span>
+                <span class="value">Resume</span>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+{% else %}
 <div class="profile-container">
     <div class="profile-card">
         <div class="profile-header">
@@ -126,4 +156,5 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}

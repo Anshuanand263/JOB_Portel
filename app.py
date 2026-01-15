@@ -103,6 +103,7 @@ def p_home():
         total_applications=20,
         active_jobs=67
     )
+from datetime import datetime
 
 @app.route("/providers/addjob",methods=["GET", "POST"])
 def addjob():
@@ -115,7 +116,12 @@ def addjob():
             location=request.form.get("location")
             job_type=request.form.get("job_type")
             salary=request.form.get("salary")
+            last_date=request.form.get("last_date")
             description=request.form.get("description")
+            last_date_str = request.form.get("last_date")
+            last_date = datetime.strptime(last_date_str, "%Y-%m-%d")
+
+ 
 
             job_collections.insert_one({
             "company":session["name"],
@@ -123,8 +129,9 @@ def addjob():
              "location":location,
             "job_type":job_type,
               "salary":salary,
-             "description":description
-
+              "last_date":last_date,
+             "description":description,
+              "post_at": datetime.utcnow() 
              }) 
             return redirect(url_for('p_home'))
         
@@ -188,10 +195,14 @@ def job_details(id):
                            job=job
                            )
 # common backend
-@app.route("/profile")
+@app.route("/profile",methods=["GET","POST"])
 def profile():
     if "user" not in session:
         return redirect(url_for("login"))
+    if request.method=="POST":
+        email=request.form.get("email")
+        user_data = db.users_col.find({})
+        return render_template("profile.html",user_data=user_data)
     
     return render_template("profile.html")
 

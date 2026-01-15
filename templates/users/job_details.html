@@ -92,12 +92,20 @@
                             <h4>Job Overview</h4>
                         </div>
                         <ul>
-                            <li>Posted date : <span>12 Aug 2019</span></li>
+                            <li>
+                                Posted date :
+                                <span>{{ job.post_at.strftime('%d %b %Y') }}</span>
+                            </li>
+
                             <li>Location : <span>{{job.location}}</span></li>
                             <li>Vacancy : <span>02</span></li>
                             <li>Job nature : <span>{{job.job_type}}</span></li>
                             <li>Salary : <span>{{job.salary}} Monthly</span></li>
-                            <li>Application date : <span>12 Sep 2020</span></li>
+
+                            <li>
+                                Last date :
+                                <span>{{ job.last_date.strftime('%d %b %Y') }}</span>
+                            </li>
                         </ul>
                         <form method="POST" action="{{ url_for('job_details', id=job._id) }}">
                             <button type="submit" class="btn">Apply Now</button>
@@ -113,9 +121,9 @@
                         <p>It is a long established fact that a reader will be distracted by the readable content of
                             a page when looking at its layout.</p>
                         <ul>
-                            <li>Name: <span>Colorlib </span></li>
-                            <li>Web : <span> colorlib.com</span></li>
-                            <li>Email: <span>carrier.colorlib@gmail.com</span></li>
+                            <li>Name: <span>{{job["company"]}} </span></li>
+                            <li>Web : <span> {{job["company"]}}.com</span></li>
+                            <li>Email: <span>carrier.{{job["company"]}}@gmail.com</span></li>
                         </ul>
                     </div>
                 </div>
