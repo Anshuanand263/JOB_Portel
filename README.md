@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Job Portal Backend – Flask & MongoDB</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+
 
 <h1>Job Portal Backend</h1>
 <h3>Flask + MongoDB Based Web Application Backend</h3>
@@ -90,5 +83,4 @@ and session management.
 
 
 
-</body>
-</html>
+
