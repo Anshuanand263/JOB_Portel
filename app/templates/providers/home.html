@@ -11,7 +11,7 @@
             <p class="text-muted">Manage your jobs and applications</p>
         </div>
         <div class="col text-end">
-            <a href="{{url_for('addjob')}}" class="btn btn-success">
+            <a href="{{url_for('providers.addjob')}}" class="btn btn-success">
                 + Post New Job
             </a>
         </div>
@@ -71,7 +71,8 @@
                         <td>{{ job.job_type }}</td>
                         <td>{{ job.salary }}</td>
                         <td>
-                            <a href="{{url_for('job_details', id=job._id)}}" class="btn btn-sm btn-primary">View</a>
+                            <a href="{{url_for('users.job_details', id=job._id)}}"
+                                class="btn btn-sm btn-primary">View</a>
                             <!-- <a href="/provider/job/edit/{{ job._id }}" class="btn btn-sm btn-warning">Edit</a>
                             <a href="/provider/job/delete/{{ job._id }}" class="btn btn-sm btn-danger">Delete</a> -->
                         </td>

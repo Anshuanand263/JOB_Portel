@@ -49,7 +49,7 @@
                         <div class="col-lg-3 col-md-2">
                             <!-- Logo -->
                             <div class="logo">
-                                <a href="{{url_for('p_home')}}"><img
+                                <a href="{{url_for('providers.p_home')}}"><img
                                         src="{{url_for('static',filename='img/logo/logo.png')}}" alt=""></a>
                             </div>
                         </div>
@@ -59,11 +59,12 @@
                                 <div class="main-menu">
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation">
-                                            <li><a href="{{url_for('p_home')}}">Home</a></li>
-                                            <li><a href="{{ url_for('addjob') }}">Addjob </a></li>
-                                            <li><a href="{{ url_for('check_application') }}">Applications </a></li>
-                                            <li><a href="{{url_for('about')}}">About</a></li>
-                                            <li><a href="{{url_for('contact')}}">Contact</a></li>
+                                            <li><a href="{{url_for('providers.p_home')}}">Home</a></li>
+                                            <li><a href="{{ url_for('providers.addjob') }}">Addjob </a></li>
+                                            <li><a href="{{ url_for('providers.check_application') }}">Applications </a>
+                                            </li>
+                                            <li><a href="{{url_for('common.about')}}">About</a></li>
+                                            <li><a href="{{url_for('common.contact')}}">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -78,21 +79,21 @@
                                         </button>
 
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-                                            <a class="dropdown-item" href="{{ url_for('profile') }}">
+                                            <a class="dropdown-item" href="{{ url_for('common.profile') }}">
                                                 My Profile
                                             </a>
-                                            <a class="dropdown-item" href="{{ url_for('dashboard') }}">
+                                            <a class="dropdown-item" href="{{ url_for('common.dashboard') }}">
                                                 Dashboard
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
+                                            <a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}">
                                                 Logout
                                             </a>
                                         </div>
                                     </div>
                                     {% else %}
-                                    <a href="{{ url_for('register') }}" class="btn head-btn1">Register</a>
-                                    <a href="{{ url_for('login') }}" class="btn head-btn2">Login</a>
+                                    <a href="{{ url_for('auth.register') }}" class="btn head-btn1">Register</a>
+                                    <a href="{{ url_for('auth.login') }}" class="btn head-btn2">Login</a>
                                     {% endif %}
                                 </div>
 
@@ -119,7 +120,7 @@
                         <div class="col-lg-3 col-md-2">
                             <!-- Logo -->
                             <div class="logo">
-                                <a href="{{url_for('home')}}"><img
+                                <a href="{{url_for('users.home')}}"><img
                                         src="{{url_for('static',filename='img/logo/logo.png')}}" alt=""></a>
                             </div>
                         </div>
@@ -129,10 +130,10 @@
                                 <div class="main-menu">
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation">
-                                            <li><a href="{{url_for('home')}}">Home</a></li>
-                                            <li><a href="{{ url_for('job_listing') }}">Find a Jobs </a></li>
-                                            <li><a href="{{url_for('about')}}">About</a></li>
-                                            <li><a href="{{url_for('contact')}}">Contact</a></li>
+                                            <li><a href="{{url_for('users.home')}}">Home</a></li>
+                                            <li><a href="{{ url_for('users.job_listing') }}">Find a Jobs </a></li>
+                                            <li><a href="{{url_for('common.about')}}">About</a></li>
+                                            <li><a href="{{url_for('common.contact')}}">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -147,21 +148,21 @@
                                         </button>
 
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-                                            <a class="dropdown-item" href="{{ url_for('profile') }}">
+                                            <a class="dropdown-item" href="{{ url_for('common.profile') }}">
                                                 My Profile
                                             </a>
-                                            <a class="dropdown-item" href="{{ url_for('dashboard') }}">
+                                            <a class="dropdown-item" href="{{ url_for('common.dashboard') }}">
                                                 Dashboard
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
+                                            <a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}">
                                                 Logout
                                             </a>
                                         </div>
                                     </div>
                                     {% else %}
-                                    <a href="{{ url_for('register') }}" class="btn head-btn1">Register</a>
-                                    <a href="{{ url_for('login') }}" class="btn head-btn2">Login</a>
+                                    <a href="{{ url_for('auth.register') }}" class="btn head-btn1">Register</a>
+                                    <a href="{{ url_for('auth.login') }}" class="btn head-btn2">Login</a>
                                     {% endif %}
                                 </div>
 

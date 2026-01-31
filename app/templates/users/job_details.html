@@ -107,7 +107,7 @@
                                 <span>{{ job.last_date.strftime('%d %b %Y') }}</span>
                             </li>
                         </ul>
-                        <form method="POST" action="{{ url_for('job_details', id=job._id) }}">
+                        <form method="POST" action="{{ url_for('users.job_details', id=job._id) }}">
                             <button type="submit" class="btn">Apply Now</button>
                         </form>
 
