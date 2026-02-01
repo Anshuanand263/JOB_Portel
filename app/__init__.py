@@ -5,7 +5,7 @@ from .routes.auth import auth_bp
 from .routes.providers import providers_bp
 from .routes.users import users_bp
 from .routes.common import common_bp
-
+import certifi
 
 def create_app():
     app = Flask(__name__)

@@ -1,3 +1,4 @@
+from .extensions import os
 class Config:
-    MONGO_URI = "mongodb://localhost:27017/job_portal"
+    MONGO_URI = os.getenv("MONGO_URI")
     SECRET_KEY = "sdgdsfgdsgdg"
