@@ -37,11 +37,33 @@ def home():
 def job_listing():
     if "user" not in session:
         return redirect(url_for("auth.login"))
-    job_collections=get_job_collections()
+
+    job_collections = get_job_collections()
+
     
-    jobs = job_collections.find({})
-    count = job_collections.count_documents({})
-    return render_template("users/job_listing.html", jobs=jobs, counts=count)
+    sort = request.args.get("sort")
+
+    query = {}
+
+   
+    if sort == "salary_low":
+        jobs = job_collections.find(query).sort("salary", 1)
+    elif sort == "salary_high":
+        jobs = job_collections.find(query).sort("salary", -1)
+    elif sort == "title":
+        jobs = job_collections.find(query).sort("title", 1)
+    else:
+        jobs = job_collections.find(query).sort("_id", -1) 
+
+    total_jobs = job_collections.count_documents(query)
+
+    return render_template(
+        "users/job_listing.html",
+        jobs=jobs,
+        counts=total_jobs,
+        sort=sort
+    )
+
 
 
 @users_bp.route("/users/job/<id>", methods=["GET", "POST"])
